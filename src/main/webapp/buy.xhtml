@@ -49,7 +49,7 @@
             <input type="email" name="email" id="email" value="" placeholder="Email" />
         </div>-->
         
-        <div id="main" class="container" align="left" style="margin-left: 30px; margin-top: 10px; margin-right: 30px; overflow: hidden;">
+        <div id="main" class="container" align="left" style="margin-left: 30px; margin-top: 10px; margin-right: 30px;">
 	<!-- Form -->
             <h3><font color="black">Search for Cars</font></h3>
             <div style="float: left;">
@@ -66,8 +66,6 @@
                             <li>
                                 <h:inputText value="#{buy.zip}"
                                 style="width: 105px"
-                                required="true"
-                                requiredMessage="Please enter zip code for your vehicle"
                                 validator="#{buy.validateZipcode}" 
                                 pt:placeholder="Zipcode"
                                 id="zip"/>                                
@@ -95,12 +93,12 @@
                     </h:panelGroup>
                     <h:panelGroup layout="block" id="yearBlock">
                         Min Year
-                        <h:selectOneMenu value="#{buy.chosenYear}" style="width: 190px">
+                        <h:selectOneMenu value="#{buy.chosenMinYear}" style="width: 190px">
                             <f:selectItems value="#{buy.years}"/>
                         </h:selectOneMenu>
                         
                         Max Year
-                        <h:selectOneMenu value="#{buy.chosenYear}" style="width: 190px">
+                        <h:selectOneMenu value="#{buy.chosenMaxYear}" style="width: 190px">
                             <f:selectItems value="#{buy.years}"/>
                         </h:selectOneMenu>
                     </h:panelGroup>                      
@@ -110,7 +108,7 @@
                                     style="width: 190px"
                                     pt:placeholder="Min Price"/>  
                          
-                        <h:inputText value="#{buy.maxMileage}"
+                        <h:inputText value="#{buy.maxPrice}"
                                     style="width: 190px"
                                     pt:placeholder="Max Price"
                                     />  
@@ -208,21 +206,23 @@
                    <h:commandButton value = "Search" action="#{buy.search}"/>
                 </h:form>
             </div>
-            <div style="margin-left: 450px;">
+            <div style="margin-left: 300px;">
                 <h:form id="carForm">
-                    <p:dataGrid var="listing" value="#{buy.updateBuyPage()}" columns="3" rows="9" 
+                    <p:dataGrid var="listing" value="#{buy.updateBuyPage()}" columns="3" rows="3" 
                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" 
                                 paginator="true"
-                                id="listings">                       
-                        <p:panel header="#{listing.id}" style="text-align:center">
-                            <h:panelGrid columns="1" style="width:100%">
-                                <img src="#{listing.url}" height="200" width="300"/> 
+                                id="listings"
+                                style="width: 100">           
+                        <p:panel>
+                            <h:panelGrid columns="1">
+                                <img src="#{listing.url}" height="200"/> 
                                 <h:outputText value="#{listing.year} #{listing.make} #{listing.model}
                                     &lt;br&gt; Price: #{listing.price}
-                                    &lt;br&gt; Description: #{listing.description}" escape="false"/>                                          
-                                        <h:link value="View Listing" outcome="listingDetail">
-                                            <f:param name="id" value="#{listing.id}" />
-                                        </h:link>
+                                    &lt;br&gt; Description: #{listing.description}" escape="false"/>              
+                                <br/>
+                                <h:link value="View Listing" outcome="listingDetail">
+                                    <f:param name="id" value="#{listing.id}" />
+                                </h:link>
                             </h:panelGrid>
                         </p:panel>
                     </p:dataGrid>
