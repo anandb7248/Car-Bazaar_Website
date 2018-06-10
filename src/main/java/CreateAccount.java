@@ -304,10 +304,12 @@ public class CreateAccount {
         ps.setString(4, phone);
         ps.setString(5, username);
         ps.setString(6, password);
+        
 
         ps.executeUpdate();
         RequestContext context = RequestContext.getCurrentInstance();
-        context.execute("swal({title: \"Success!\", text: \"Account Created Successfully.\", type: \"success\",}).then(function(){window.location.href = \"index.xhtml\";})");
+        context.execute("swal({title: \"Success!\", text: \"Account Created Successfully.\", type: \"success\",}).then(function(){window.location.href = \"home.xhtml\";})");
+        
     }    
     
     public String login() {

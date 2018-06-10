@@ -1,3 +1,11 @@
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -32,6 +40,9 @@ public class Listings {
     private String description;
     private String url;
     private String phone;
+    
+    private DBConnect dbConnect = new DBConnect();
+    private List<Listings> myListings;    
 
     public Listings(int id, String make, String model, String trim, String year, String carType, String driveType,
             String transmission, String cylinders, String fuelType, String mpgCity, String mpgHighway,
@@ -246,7 +257,134 @@ public class Listings {
         this.description = description;
     }
 
-    
+    public DBConnect getDbConnect() {
+        return dbConnect;
+    }
+
+    public void setDbConnect(DBConnect dbConnect) {
+        this.dbConnect = dbConnect;
+    }
+
+    public List<Listings> getMyListings() {
+        return myListings;
+    }
+
+    public void setMyListings(List<Listings> myListings) {
+        this.myListings = myListings;
+    }
+        
+    public List<Listings> updateMyListingsPage() throws SQLException {   
+        myListings = new ArrayList<Listings>();
+        Connection con = dbConnect.getConnection();
+        int lid;
+        String lmake;
+        String lmodel;
+        String ltrim;
+        int lyear;
+        String lyearStr;
+        String lcarType;
+        String ldriveType;
+        String ltransmission;
+        String lcylinders;
+        String lfuelType;
+        int lmpgCity;
+        String lmpgCityStr;
+        int lmpgHighway;
+        String lmpgHighwayStr;
+        int lprice;
+        String lpriceStr;
+        String lcolor;
+        int lmileage;
+        String lmileageStr;
+        String lcondition;
+        String ltitleStatus;
+        String lcity;
+        String lstate;
+        int lzip;
+        String lzipStr;
+        String ldescription;
+        String lurl;
+        String lphone;
+        
+        if (con == null) {
+            throw new SQLException("Can't get database connection");
+        }
+        
+        PreparedStatement queryListings = con.prepareStatement("select * from listing l, cars c where l.car_id = c.id and seller_id = ?");
+        System.out.println(Login.userId);
+        queryListings.setInt(1, Login.userId);
+        ResultSet dbListings = queryListings.executeQuery();
+        
+        while (dbListings.next()) {
+            lid = dbListings.getInt(1);
+            ldescription = dbListings.getString("description");
+            lprice = dbListings.getInt("price");
+            lcolor = dbListings.getString("color");
+            lmileage = dbListings.getInt("mileage");
+            ltransmission = dbListings.getString("transmission");
+            lcondition = dbListings.getString("condition");
+            lzip = dbListings.getInt("zip");
+            lstate = dbListings.getString("state");
+            lcity = dbListings.getString("city");
+            ltitleStatus = dbListings.getString("title_status");
+            lmake = dbListings.getString("make");
+            lmodel = dbListings.getString("model");
+            ltrim = dbListings.getString("trim");
+            lcarType = dbListings.getString("size");
+            lfuelType = dbListings.getString("fuel_type");
+            lmpgCity = dbListings.getInt("mpg_city");
+            lmpgHighway = dbListings.getInt("mpg_hwy");
+            ldriveType = dbListings.getString("drive_type");
+            lcylinders = dbListings.getString("engine");
+            lyear = dbListings.getInt("year");
+            lurl = dbListings.getString("imageurl");
+            lphone = dbListings.getString("phone");
+            
+            if (lmpgCity <= 0) {
+                lmpgCityStr = "N/A";
+            }
+            else {
+                lmpgCityStr = Integer.toString(lmpgCity) + "mpg";
+            }
+
+            if (lmpgHighway <= 0) {
+                lmpgHighwayStr = "N/A";
+            }
+            else {
+                lmpgHighwayStr = Integer.toString(lmpgHighway) + "mpg";
+            }
+
+            if (lprice < 0) {
+                lpriceStr = "N/A";
+            }
+            else {
+                lpriceStr = "$" + Integer.toString(lprice);
+            }
+
+            if (lmileage < 0) {
+                lmileageStr = "N/A";
+            }
+            else {
+                lmileageStr = Integer.toString(lmileage) + " miles";
+            }
+
+            if (lzip <= 0) {
+                lzipStr = "N/A";
+            }
+            else {
+                lzipStr = Integer.toString(lzip);
+            }
+            
+            myListings.add(new Listings(lid, lmake, lmodel, ltrim, Integer.toString(lyear), lcarType, ldriveType, ltransmission, 
+                    lcylinders, lfuelType, lmpgCityStr, lmpgHighwayStr, 
+                    lpriceStr, lcolor, lmileageStr, lcondition, ltitleStatus, 
+                    lcity, lstate, lzipStr, ldescription, lurl, lphone));
+        }
+        
+        return myListings;
+        
+        
+    }    
     
     
      

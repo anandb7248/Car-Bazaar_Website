@@ -4344,3 +4344,12 @@
 			}
 
 		}
+                
+                .cancel-submit-form {
+                    margin : 0 auto;
+                }
+                
+                #divConfirm{
+                    width: 50%;
+                    margin: 0 auto;
+                }

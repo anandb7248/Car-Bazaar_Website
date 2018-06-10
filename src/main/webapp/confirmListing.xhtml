@@ -11,7 +11,7 @@ and open the template in the editor.
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-	<title>View Listing</title>
+	<title>Confirm Listing</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
         <link href="./resources/css/home.css" rel="stylesheet" type="text/css"/>
@@ -40,11 +40,11 @@ and open the template in the editor.
                 <li><h:link value="Settings" outcome="setting"/></li>
                 <li><h:link value="Logout" outcome="account"/></li>
             </ul>
-	</nav>              
+	</nav>               
                 <!-- Listings -->
                 <f:metadata>
                     <f:viewParam name="id" value="#{listingDetail.id}" />
-                    <f:event type="preRenderView" listener="#{listingDetail.init}" />
+                    <f:event type="preRenderView" listener="#{listingDetail.initConfirm}" />
                 </f:metadata>
                 
                 <section id="one" class="wrapper style2">
@@ -56,7 +56,6 @@ and open the template in the editor.
                                     <hr width="100%"></hr>                               
                                 </header>
                             </div>
-                            
                             <div>
                                 <img class="image listing" src= "#{listingDetail.listing.url}" alt="" style="width:70%"/>
                             </div> 
@@ -75,14 +74,21 @@ and open the template in the editor.
                                 <b>Drive Type:</b> #{listingDetail.listing.driveType} <br/>
                                 <b>Engine:</b> #{listingDetail.listing.cylinders} <br/>
                             </p>
+                            <br/>
                             <p class="d2">
                                 <b>Description</b> #{listingDetail.listing.description} <br/>
                                 <b>Contact Info</b> #{listingDetail.listing.phone} <br/><br/><br/>
                             </p>
-
+                            <h:panelGroup style="display:block; text-align: center; margin-bottom: 50px">
+                            <h:form>
+                                <h:commandButton value="Cancel" style="margin-right: 50px" action="#{listingDetail.cancel}"></h:commandButton>
+                                <h:commandButton value="Confirm" action="#{listingDetail.confirm}"></h:commandButton>  
+                            </h:form>
+                            </h:panelGroup>
+                            <br/>
                         </div>
                     </div>
-                </section>                     
+                </section>
 <!--		 Footer 
 			<footer id="footer">
 				<div class="container">

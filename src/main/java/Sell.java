@@ -685,8 +685,8 @@ public class Sell implements Serializable {
         
         // Insert into listings table
         ps = con.prepareStatement("insert into listing"
-                + "(description, price, color, mileage, transmission, condition, zip, city, state, title_status, car_id, imageurl, phone)"
-                + "values(?,?,?,?,?,?,?,?,?,?,?,?,?)");
+                + "(description, price, color, mileage, transmission, condition, zip, city, state, title_status, car_id, imageurl, phone, seller_id)"
+                + "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
         
         ps.setString(1, description);
         ps.setInt(2, Integer.parseInt(price));
@@ -705,6 +705,7 @@ public class Sell implements Serializable {
         ps.setInt(11, carID);
         ps.setString(12, getURL());
         ps.setString(13, phone);
+        ps.setInt(14, Login.userId);
         
         ps.executeUpdate();
         
