@@ -1,0 +1,233 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+    <h:head>
+	<title>Search for Cars</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link href="./resources/css/home.css" rel="stylesheet" type="text/css"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+        <!-- Scripts -->
+	<script src="./js/jquery.min.js"></script>
+	<script src="./js/jquery.scrollex.min.js"></script>
+	<script src="./js/skel.min.js"></script>
+	<script src="./js/util.js"></script>
+	<script src="./js/main.js"></script>
+    </h:head>
+    <body style="background-color: white">
+	<!-- Header -->
+        <!-- class="alt" -->
+	<header id="header" style="background-color: #000">
+            <div class="logo"><h:link value="Car Bazaar" outcome="home"/> <span>by ADTW</span></div>            
+            <a href="#menu">Menu</a>
+	</header>
+
+	<!-- Nav -->
+	<nav id="menu">
+            <ul class="links">
+                <li><h:link value="Home" outcome="home"/></li>
+                <li><h:link value="Buy a car" outcome="buy"/></li>
+                <li><h:link value="Sell your car" outcome="sell"/></li>
+                <li><h:link value="My Listings" outcome="listing"/></li>
+                <li><h:link value="Settings" outcome="setting"/></li>
+                <li><h:link value="Logout" outcome="account"/></li>
+            </ul>
+	</nav>
+<!--        <h3>Form</h3>
+
+	<form method="post" action="#">
+	<div class="row uniform">
+	<div class="6u 12u$(xsmall)">
+	<input type="text" name="name" id="name" value="" placeholder="Name" />
+	</div>
+	<div class="6u$ 12u$(xsmall)">
+            <input type="email" name="email" id="email" value="" placeholder="Email" />
+        </div>-->
+        
+        <div id="main" class="container" align="left" style="margin-left: 30px; margin-top: 10px; margin-right: 30px; overflow: hidden;">
+	<!-- Form -->
+            <h3><font color="black">Search for Cars</font></h3>
+            <div style="float: left;">
+        	<h:form> 
+                    <div class="12u$">
+			<ul class="actions">
+                            <li><h:selectOneMenu value="#{buy.chosenRadius}" style="width: 75px">
+                                    <f:selectItems value="#{buy.radiusOptions}"/>
+                                </h:selectOneMenu>
+                            </li>
+                            <li>
+                                Miles from
+                            </li>
+                            <li>
+                                <h:inputText value="#{buy.zip}"
+                                style="width: 105px"
+                                required="true"
+                                requiredMessage="Please enter zip code for your vehicle"
+                                validator="#{buy.validateZipcode}" 
+                                pt:placeholder="Zipcode"
+                                id="zip"/>                                
+                            </li>
+			</ul>
+                    </div>
+                    <div class="12u$">
+                        <h:message for="zip" style="color:red;margin:8px; text-align:center;"/>                    
+                    </div>
+                    <h:panelGroup>
+                        Make
+                        <h:selectOneMenu value="#{buy.chosenMake}" style="width: 190px">
+                            <f:selectItems value="#{buy.makes}"/>
+                        </h:selectOneMenu>
+                    </h:panelGroup>  
+                    <h:panelGroup layout="block" id="modelBlock">
+                        Model <h:inputText value="#{buy.model}" required ="true"
+                                    requiredMessage="Your must enter a model"
+                                    id="model" style="width: 190px"/>
+                        <h:message for="model" style="color:red;margin:8px;"/>   
+                    </h:panelGroup>                      
+                    <h:panelGroup layout="block" id="trimBlock">
+                        Trim <h:inputText value="#{buy.trim}"
+                                    style="width: 190px"/> 
+                    </h:panelGroup>
+                    <h:panelGroup layout="block" id="yearBlock">
+                        Min Year
+                        <h:selectOneMenu value="#{buy.chosenYear}" style="width: 190px">
+                            <f:selectItems value="#{buy.years}"/>
+                        </h:selectOneMenu>
+                        
+                        Max Year
+                        <h:selectOneMenu value="#{buy.chosenYear}" style="width: 190px">
+                            <f:selectItems value="#{buy.years}"/>
+                        </h:selectOneMenu>
+                    </h:panelGroup>                      
+                    <h:panelGroup layout="block" id="priceBlock">
+                        Price ($):
+                        <h:inputText value="#{buy.minPrice}"
+                                    style="width: 190px"
+                                    pt:placeholder="Min Price"/>  
+                         
+                        <h:inputText value="#{buy.maxMileage}"
+                                    style="width: 190px"
+                                    pt:placeholder="Max Price"
+                                    />  
+                    </h:panelGroup>                    
+                    <h:panelGroup layout="block" id="mileageBlock">
+                        Mileage:
+                        <h:inputText value="#{buy.minMileage}"
+                                    style="width: 190px"
+                                    pt:placeholder="Min Mileage"/>  
+                         
+                        <h:inputText value="#{buy.maxMileage}"
+                                    style="width: 190px"
+                                    pt:placeholder="Max Mileage"
+                                    />  
+                    </h:panelGroup>
+                    <h:panelGroup layout="block" id="styleBlock">   
+                        Car Type
+                        <h:selectOneMenu value="#{buy.chosenStyle}" style="width: 190px">
+                            <f:selectItems value="#{buy.styles}"/>
+                        </h:selectOneMenu>
+                    </h:panelGroup>
+                    <h:panelGroup layout="block" id="driveBlock">
+                        Drive Type
+                        <h:selectOneMenu value="#{buy.chosenDriveType}" style="width: 190px">
+                            <f:selectItems value="#{buy.driveTypes}"/>
+                        </h:selectOneMenu>
+                    </h:panelGroup>  
+                    <h:panelGroup layout="block" id="transBlock">
+                        Transmission
+                        <h:selectOneMenu value="#{buy.chosenTransmission}" style="width: 190px">
+                            <f:selectItems value="#{buy.transmissions}"/>
+                        </h:selectOneMenu>
+                    </h:panelGroup>
+                    
+                    <h:panelGroup layout="block" id="cylinderBlock">
+                        Cylinders
+                        <h:selectOneMenu value="#{buy.chosenCylinder}" style="width: 190px">
+                            <f:selectItems value="#{buy.cylinders}"/>
+                        </h:selectOneMenu>
+                    </h:panelGroup>
+
+                    <h:panelGroup layout="block" id="fuelBlock">
+                        Fuel Type
+                        <h:selectOneMenu value="#{buy.chosenFuel}" style="width: 190px">
+                            <f:selectItems value="#{buy.fuels}"/>
+                        </h:selectOneMenu>
+                    </h:panelGroup>
+                    
+                    <h:panelGroup layout="block" id="mpgBlock">
+                        MPG City <h:inputText value="#{buy.mpgcity}"
+                                    validator="#{buy.validateMPGCity}"          
+                                    style="width: 190px"
+                                    id="mpgCity"/>
+                        <h:message for="mpgCity" style="color:red;margin:8px;"/>
+                    </h:panelGroup>
+                    <h:panelGroup layout="block" id="mpgHBlock">
+                        MPG Highway <h:inputText value="#{buy.mpghway}"
+                                    validator="#{buy.validateMPGHwy}"             
+                                    style="width: 190px"
+                                    id="mpgHway"/>
+                        <h:message for="mpgHway" style="color:red;margin:8px;"/>
+                    </h:panelGroup>
+                   
+                    <h:panelGroup layout="block" id="colorBlock">
+                        Color
+                        <h:selectOneMenu value="#{buy.chosenColor}" style="width: 190px">
+                            <f:selectItems value="#{buy.colors}"/>
+                        </h:selectOneMenu>
+                    </h:panelGroup>
+                    <h:panelGroup layout="block" id="conditionBlock">
+                        Condition
+                        <h:selectOneMenu value="#{buy.chosenCondition}" style="width: 190px">
+                            <f:selectItems value="#{buy.conditions}"/>
+                        </h:selectOneMenu>
+                    </h:panelGroup>
+                    
+                    <h:panelGroup layout="block" id="titleBlock">
+                        Title Status
+                        <h:selectOneMenu value="#{buy.chosenTitleStatus}" style="width: 190px">
+                            <f:selectItems value="#{buy.titleOptions}"/>
+                        </h:selectOneMenu>
+                    </h:panelGroup>  
+                    <h:panelGroup layout="block" id="cityBlock">
+                        City <h:inputText value="#{buy.city}"
+                                    style="width: 190px"/>  
+                    </h:panelGroup>
+                    
+                   <h:panelGroup layout="block" id="stateBlock">
+                        State
+                        <h:selectOneMenu value="#{buy.chosenState}" style="width: 75px">
+                            <f:selectItems value="#{buy.states}"/>
+                        </h:selectOneMenu>
+                    </h:panelGroup>
+                    <br></br> 
+                   <h:commandButton value = "Search" action="#{buy.search}"/>
+                </h:form>
+            </div>
+            <div style="margin-left: 450px;">
+                <h:form id="carForm">
+                    <p:dataGrid var="listing" value="#{buy.updateBuyPage()}" columns="3" rows="9" 
+                                paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" 
+                                paginator="true"
+                                id="listings">                       
+                        <p:panel header="#{listing.id}" style="text-align:center">
+                            <h:panelGrid columns="1" style="width:100%">
+                                <img src="#{listing.url}" height="200" width="300"/> 
+                                <h:outputText value="#{listing.year} #{listing.make} #{listing.model}
+                                    &lt;br&gt; Price: #{listing.price}
+                                    &lt;br&gt; Description: #{listing.description}" escape="false"/>                                          
+                                        <h:link value="View Listing" outcome="listingDetail">
+                                            <f:param name="id" value="#{listing.id}" />
+                                        </h:link>
+                            </h:panelGrid>
+                        </p:panel>
+                    </p:dataGrid>
+                </h:form>
+            </div>
+        </div>       
+    </body>
+</html>

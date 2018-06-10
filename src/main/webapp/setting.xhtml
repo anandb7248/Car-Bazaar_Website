@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE HTML>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+	<head>
+		<title>My Listings</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+                <link href="./resources/css/home.css" rel="stylesheet" type="text/css"/>
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+                <!-- Scripts -->
+		<script src="./js/jquery.min.js"></script>
+		<script src="./js/jquery.scrollex.min.js"></script>
+		<script src="./js/skel.min.js"></script>
+		<script src="./js/util.js"></script>
+		<script src="./js/main.js"></script>
+	</head>
+	<body>
+	<!-- Header -->
+        <!-- class="alt" -->
+            <header id="header" style="background-color: #000">
+                <div class="logo"><h:link value="Car Bazaar" outcome="home"/> <span>by ADTW</span></div>            
+                <a href="#menu">Menu</a>
+            </header>
+            <!-- Nav -->
+            <nav id="menu">
+                <ul class="links">
+                    <li><h:link value="Home" outcome="home"/></li>
+                    <li><h:link value="Buy a car" outcome="buy"/></li>
+                    <li><h:link value="Sell your car" outcome="sell"/></li>
+                    <li><h:link value="My Listings" outcome="listing"/></li>
+                    <li><h:link value="Settings" outcome="setting"/></li>
+                    <li><h:link value="Logout" outcome="account"/></li>
+		</ul>
+            </nav>
+            <div id="main" class="container">
+                <h3><font color="black">Change your password</font></h3>
+                    <h:form> 
+                        <h:panelGroup layout="block" id="oldPw">
+                            <font color="black">Current Password</font> <h:inputSecret value="#{createAccount.currPassword}"
+                                    style="background-color: whitesmoke; width: 300px"
+                                    required="true"
+                                    requiredMessage="Please enter your old password"
+                                    validator="#{createAccount.validateOldPW}"
+                                    id="old"/>
+                            <h:message for="old" style="color:red;margin:8px;"/>
+                        </h:panelGroup>
+                        <h:panelGroup layout="block" id="newPw">
+                            <font color="black">New Password</font> <h:inputSecret value="#{createAccount.newPassword}"
+                                    style="background-color: whitesmoke; width: 300px"
+                                    binding="#{createAccount.newPasswordUI}"
+                                    required="true"
+                                    requiredMessage="Please enter your new password"
+                                    id="new"/>
+                            <h:message for="new" style="color:red;margin:8px;"/>
+                        </h:panelGroup>  
+                        <h:panelGroup layout="block" id="confNewPw">
+                            <font color="black">Confirm New Password</font> <h:inputSecret value="#{createAccount.confirmNewPassword}"
+                                    style="background-color: whitesmoke; width: 300px"
+                                    required="true"
+                                    requiredMessage="Please confirm your new password"
+                                    validator="#{createAccount.validateNewPW}"
+                                    id="confnew"/>
+                            <h:message for="confnew" style="color:red;margin:8px;"/>
+                        </h:panelGroup>      
+                        <br></br>
+                        <h:panelGroup>
+                            <h:commandButton value="Change" action="#{createAccount.changePassword}"/>
+                        </h:panelGroup>                         
+                    </h:form>
+            </div>
+        </body>
+</html>

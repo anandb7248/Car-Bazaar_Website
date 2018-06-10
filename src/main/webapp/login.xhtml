@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Login</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css" />
+        <script type ="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css"></script>
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"></link>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    <h:body styleClass="cyan lighten-5">
+        <div class="valign-wrapper" id="login-page">
+            <div class="container">
+                <div class="center-align">
+                    <div class="row">
+                        <div class ="col s6 offset-s3">
+                            <div class="card">
+                                <div class="card-content">
+                                    <img class="responsive-img" style="max-width: 64px;" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBHvpKbjN_ZwfS839w2AFhbmwUAN6Kr5yVUbRFH3J6dc_-DqCIpA"> </img>
+                                        <div class="left-align">
+                                            <h:form id="login-form">
+                                                <p:growl autoUpdate="true" />
+                                                <div class="row">
+                                                    <!-- class = "active" -->
+                                                    <div class="col s12 input-field">
+                                                        <i class="material-icons prefix">person</i>
+                                                        <h:inputText value="#{login.login}" id="login" required="true" 
+                                                                     binding="#{login.loginUI}"
+                                                                     requiredMessage="Username is required"/>
+                                                        <h:outputLabel class = "active" for="login" value="Username"/>
+                                                    </div>
+                                                    <div class="col s12 input-field">
+                                                        <i class="material-icons prefix">lock</i>
+                                                        <h:inputSecret value="#{login.password}" id="password" required="true" 
+                                                                       requiredMessage="Password is required" validator="#{login.validate}"/>
+                                                        <h:outputLabel class = "active" for="password" value="Password"/>
+                                                    </div>    
+                                                    <div class="center-align">
+                                                        <div class="col s12 input-field">
+                                                            <h:commandLink value="Login" styleClass="btn btn-large" action="#{login.login}"/>
+                                                        </div>                                                      
+                                                    </div>
+                                                </div>
+                                            </h:form>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </h:body>
+</html>

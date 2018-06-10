@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE HTML>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <head>
+	<title>Sell your car</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link href="./resources/css/home.css" rel="stylesheet" type="text/css"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+        <!-- Scripts -->
+	<script src="./js/jquery.min.js"></script>
+	<script src="./js/jquery.scrollex.min.js"></script>
+	<script src="./js/skel.min.js"></script>
+	<script src="./js/util.js"></script>
+	<script src="./js/main.js"></script>
+    </head>
+    <!--style="background-color: #C0C0C0;"-->
+    <body>
+	<!-- Header -->
+        <!-- class="alt" -->
+	<header id="header" style="background-color: #000">
+            <div class="logo"><h:link value="Car Bazaar" outcome="home"/> <span>by ADTW</span></div>            
+            <a href="#menu">Menu</a>
+	</header>
+
+	<!-- Nav -->
+	<nav id="menu">
+            <ul class="links">
+                <li><h:link value="Home" outcome="home"/></li>
+                <li><h:link value="Buy a car" outcome="buy"/></li>
+                <li><h:link value="Sell your car" outcome="sell"/></li>
+                <li><h:link value="My Listings" outcome="listing"/></li>
+                <li><h:link value="Settings" outcome="setting"/></li>
+                <li><h:link value="Logout" outcome="account"/></li>
+            </ul>
+	</nav>
+<!--        <section class="banner full">
+                <img src="./images/car01.jpg" alt="" />
+        </section>-->
+        <div id="main" class="container">
+	<!-- Form -->
+            <h3><font color="black">Sell your car</font></h3>
+        	<h:form enctype="multipart/form-data">                    
+                    <h:panelGroup>                    
+                        <font color="black">Make</font>
+                        <h:selectOneMenu value="#{sell.chosenMake}" style="background-color: whitesmoke; width: 1000px">
+                            <f:selectItems value="#{sell.makes}"/>
+                        </h:selectOneMenu>
+                    </h:panelGroup>
+                    <br></br>
+                    <h:panelGroup layout="block" id="modelBlock">
+                        <font color="black">Model</font> <h:inputText value="#{sell.model}" required ="true"
+                                    requiredMessage="Your must enter a model"
+                                    id="model" style="background-color: whitesmoke; width: 1000px"/>
+                        <h:message for="model" style="color:red;margin:8px;"/>   
+                    </h:panelGroup>
+                    <br></br>
+                    <h:panelGroup layout="block" id="trimBlock">
+                         <font color="black">Trim</font> <h:inputText value="#{sell.trim}" required ="true"
+                                    requiredMessage="Your must enter a trim"
+                                    id="trim" style="background-color: whitesmoke; width: 1000px"/>
+                        <h:message for="trim" style="color:red;margin:8px;"/>   
+                    </h:panelGroup>  
+                    <br></br>
+                    <h:panelGroup layout="block" id="yearBlock">
+                         <font color="black">Year</font>
+                        <h:selectOneMenu value="#{sell.chosenYear}" style="background-color: whitesmoke; width: 1000px">
+                            <f:selectItems value="#{sell.years}"/>
+                        </h:selectOneMenu>
+                    </h:panelGroup>
+                    <br></br>
+                    <h:panelGroup layout="block" id="styleBlock">
+                         <font color="black">Car Type</font>
+                        <h:selectOneMenu value="#{sell.chosenStyle}" style="background-color: whitesmoke; width: 1000px">
+                            <f:selectItems value="#{sell.styles}"/>
+                        </h:selectOneMenu>
+                    </h:panelGroup>
+                    <br></br>
+                    <h:panelGroup layout="block" id="driveBlock">
+                         <font color="black">Drive Type</font>
+                        <h:selectOneMenu value="#{sell.chosenDriveType}" style="background-color: whitesmoke; width: 1000px">
+                            <f:selectItems value="#{sell.driveTypes}"/>
+                        </h:selectOneMenu>
+                    </h:panelGroup>
+                    <br></br>
+                    <h:panelGroup layout="block" id="transBlock">
+                         <font color="black">Transmission</font>
+                        <h:selectOneMenu value="#{sell.chosenTransmission}" style="background-color: whitesmoke; width: 1000px">
+                            <f:selectItems value="#{sell.transmissions}"/>
+                        </h:selectOneMenu>
+                    </h:panelGroup>
+                    <br></br>
+                    <h:panelGroup layout="block" id="cylinderBlock">
+                         <font color="black">Cylinders</font>
+                        <h:selectOneMenu value="#{sell.chosenCylinder}" style="background-color: whitesmoke; width: 1000px">
+                            <f:selectItems value="#{sell.cylinders}"/>
+                        </h:selectOneMenu>
+                    </h:panelGroup>
+                    <br></br>
+                    <h:panelGroup layout="block" id="fuelBlock">
+                         <font color="black">Fuel Type</font>
+                        <h:selectOneMenu value="#{sell.chosenFuel}" style="background-color: whitesmoke; width: 1000px">
+                            <f:selectItems value="#{sell.fuels}"/>
+                        </h:selectOneMenu>
+                    </h:panelGroup>
+                    <br></br>
+                    <h:panelGroup layout="block" id="mpgBlock">
+                         <font color="black">MPG City</font> <h:inputText value="#{sell.mpgcity}"
+                                    validator="#{sell.validateMPGCity}"          
+                                    style="background-color: whitesmoke; width: 1000px"
+                                    id="mpgCity"/>
+                        <h:message for="mpgCity" style="color:red;margin:8px;"/>
+                    </h:panelGroup>
+                    <br></br>
+                    <h:panelGroup layout="block" id="mpgHBlock">
+                         <font color="black">MPG Highway</font> <h:inputText value="#{sell.mpghway}"
+                                    validator="#{sell.validateMPGHwy}"             
+                                    style="background-color: whitesmoke; width: 1000px"
+                                    id="mpgHway"/>
+                        <h:message for="mpgHway" style="color:red;margin:8px;"/>
+                    </h:panelGroup>
+                    <br></br>
+                    <h:panelGroup layout="block" id="priceBlock">
+                        <font color="black">Price ($)</font> <h:inputText value="#{sell.price}" required ="true"
+                                    requiredMessage="Your must enter a price"
+                                    validator="#{sell.validatePrice}"
+                                    id="price" style="background-color: whitesmoke; width: 1000px"/>
+                        <h:message for="price" style="color:red;margin:8px;"/>   
+                    </h:panelGroup>
+                    <br></br>
+                    <h:panelGroup layout="block" id="colorBlock">
+                         <font color="black">Color</font>
+                        <h:selectOneMenu value="#{sell.chosenColor}" style="background-color: whitesmoke; width: 1000px">
+                            <f:selectItems value="#{sell.colors}"/>
+                        </h:selectOneMenu>
+                    </h:panelGroup>
+                    <br></br>
+                    <h:panelGroup layout="block" id="mileageBlock">
+                         <font color="black">Mileage</font><h:inputText value="#{sell.mileage}"
+                                    style="background-color: whitesmoke; width: 1000px"
+                                    required="true"
+                                    requiredMessage="Your must enter car mileage"
+                                    validator="#{sell.validateMileage}"
+                                    id="mileage"/>  
+                         <h:message for="mileage" style="color:red;margin:8px;"/>
+                    </h:panelGroup>
+                    <br></br>
+                    <h:panelGroup layout="block" id="conditionBlock">
+                        <font color="black">Condition</font>
+                        <h:selectOneMenu value="#{sell.chosenCondition}" style="background-color: whitesmoke; width: 1000px">
+                            <f:selectItems value="#{sell.conditions}"/>
+                        </h:selectOneMenu>
+                    </h:panelGroup>
+                    <br></br>
+                    <h:panelGroup layout="block" id="titleBlock">
+                         <font color="black">Title Status</font>
+                        <h:selectOneMenu value="#{sell.chosenTitleStatus}" style="background-color: whitesmoke; width: 1000px">
+                            <f:selectItems value="#{sell.titleOptions}"/>
+                        </h:selectOneMenu>
+                    </h:panelGroup>
+                    <br></br>
+                    <h:panelGroup layout="block" id="cityBlock">
+                         <font color="black">City</font> <h:inputText value="#{sell.city}"
+                                    style="background-color: whitesmoke; width: 1000px"/>  
+                    </h:panelGroup>
+                    <br></br>
+                    <h:panelGroup layout="block" id="stateBlock">
+                        <font color="black">State</font>
+                        <h:selectOneMenu value="#{sell.chosenState}" style="background-color: whitesmoke; width: 1000px">
+                            <f:selectItems value="#{sell.states}"/>
+                        </h:selectOneMenu>
+                    </h:panelGroup>
+                    <br></br>
+                    <h:panelGroup layout="block" id="zipBlock">
+                         <font color="black">Zip Code</font> <h:inputText value="#{sell.zip}"
+                                    style="background-color: whitesmoke; width: 1000px"
+                                    required="true"
+                                    requiredMessage="Please enter the zip code for your vehicle"
+                                    validator="#{sell.validateZipcode}"
+                                    id="zip"/>
+                        <h:message for="zip" style="color:red;margin:8px;"/>
+                    </h:panelGroup>
+                    <br></br>
+                    <h:panelGroup layout="block" id="descriptionBlock">
+                         <font color="black">Description</font> <h:inputTextarea value="#{sell.description}"
+                                    style="background-color: whitesmoke; width: 1000px" rows="5" required="true"
+                                    requiredMessage="Please enter a description for your listing"
+                                    id="description"/>
+                        
+                        <h:message for="description" style="color:red;margin:8px;"/>
+                    </h:panelGroup>
+                    <br></br>
+                    <h:panelGroup layout="block" id="contactInfoBlock">
+                         <font color="black">Phone Number </font> 
+                         <h:inputText value="#{sell.phone}"
+                                    style="background-color: whitesmoke; width: 1000px"
+                                    required="true"
+                                    requiredMessage="Please enter contact phone number for your listing"
+                                    validator="#{sell.validatePhoneNumber}"
+                                    id="phone"/>
+                        <h:message for="phone" style="color:red;margin:8px;"/>
+                    </h:panelGroup>
+                    <br></br>
+                    <h:inputFile value="#{sell.uploadedFile}"/>
+                    <br></br>
+                    <br></br>
+                    <h:commandButton value="Continue" action="#{sell.postListing}"/>
+                </h:form>
+        </div>
+    </body>
+</html>

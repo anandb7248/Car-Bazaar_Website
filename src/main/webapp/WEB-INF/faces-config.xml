@@ -1,0 +1,523 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<faces-config version="2.2"
+              xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
+    <managed-bean>
+        <managed-bean-name>selector</managed-bean-name>
+        <managed-bean-class>Selector</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>util</managed-bean-name>
+        <managed-bean-class>Util</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>customer</managed-bean-name>
+        <managed-bean-class>Customer</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+        <managed-property>
+            <property-name>login</property-name>
+            <value>#{login}</value>
+        </managed-property>
+    </managed-bean>    
+    <managed-bean>
+        <managed-bean-name>login</managed-bean-name>
+        <managed-bean-class>Login</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>  
+    
+    <managed-bean>
+        <managed-bean-name>sell</managed-bean-name>
+        <managed-bean-class>Sell</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+        
+    <managed-bean>
+        <managed-bean-name>buy</managed-bean-name>
+        <managed-bean-class>Buy</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>        
+        
+    <managed-bean>
+        <managed-bean-name>createAccount</managed-bean-name>
+        <managed-bean-class>CreateAccount</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+
+    <managed-bean>
+        <managed-bean-name>listingDetail</managed-bean-name>
+        <managed-bean-class>ListingDetail</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>    
+    
+    <navigation-rule>
+        <from-view-id>
+            /index.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>success</from-outcome>
+            <to-view-id>/start.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule> 
+    <navigation-rule>
+        <from-view-id>
+            /start.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>newCustomer</from-outcome>
+            <to-view-id>/newCustomer.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>listCustomers</from-outcome>
+            <to-view-id>/showAllCustomers.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>findCustomer</from-outcome>
+            <to-view-id>/findCustomer.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>deleteCustomer</from-outcome>
+            <to-view-id>/deleteCustomer.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <from-view-id>
+            /newCustomer.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>main</from-outcome>
+            <to-view-id>/start.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <from-view-id>
+            /findCustomer.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>showCustomer</from-outcome>
+            <to-view-id>/displayCustomer.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <from-view-id>
+            /deleteCustomer.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>main</from-outcome>
+            <to-view-id>/start.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <from-view-id>
+            /createAccount.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>login</from-outcome>
+            <to-view-id>/login.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>    
+    
+    <navigation-rule>
+        <from-view-id>
+            /login.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>login</from-outcome>
+            <to-view-id>/home.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>    
+
+<!--Navigation for homepage-->
+    <navigation-rule>
+        <from-view-id>
+            /home.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>home</from-outcome>
+            <to-view-id>/home.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>     
+
+    <navigation-rule>
+        <from-view-id>
+            /home.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>buy</from-outcome>
+            <to-view-id>/buy.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule> 
+    
+    <navigation-rule>
+        <from-view-id>
+            /home.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>sell</from-outcome>
+            <to-view-id>/sell.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule> 
+                            
+    <navigation-rule>
+        <from-view-id>
+            /home.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>account</from-outcome>
+            <to-view-id>/createAccount.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>         
+
+    <navigation-rule>
+        <from-view-id>
+            /home.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>listing</from-outcome>
+            <to-view-id>/listing.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>  
+    
+    <navigation-rule>
+        <from-view-id>
+            /home.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>setting</from-outcome>
+            <to-view-id>/setting.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>       
+
+<!--Navigation for selling page-->
+    <navigation-rule>
+        <from-view-id>
+            /sell.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>continue</from-outcome>
+            <to-view-id>/home.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule> 
+
+    <navigation-rule>
+        <from-view-id>
+            /sell.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>buy</from-outcome>
+            <to-view-id>/buy.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule> 
+    
+    <navigation-rule>
+        <from-view-id>
+            /sell.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>sell</from-outcome>
+            <to-view-id>/sell.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule> 
+                            
+    <navigation-rule>
+        <from-view-id>
+            /sell.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>account</from-outcome>
+            <to-view-id>/createAccount.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>         
+
+    <navigation-rule>
+        <from-view-id>
+            /sell.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>listing</from-outcome>
+            <to-view-id>/listing.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule> 
+    
+    <navigation-rule>
+        <from-view-id>
+            /sell.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>setting</from-outcome>
+            <to-view-id>/setting.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>                                                                   
+
+<!--Navigation for listing page-->
+    <navigation-rule>
+        <from-view-id>
+            /listing.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>home</from-outcome>
+            <to-view-id>/home.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule> 
+    
+    <navigation-rule>
+        <from-view-id>
+            /listing.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>buy</from-outcome>
+            <to-view-id>/buy.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule> 
+    
+    <navigation-rule>
+        <from-view-id>
+            /listing.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>sell</from-outcome>
+            <to-view-id>/sell.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule> 
+                            
+    <navigation-rule>
+        <from-view-id>
+            /listing.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>account</from-outcome>
+            <to-view-id>/createAccount.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>         
+
+    <navigation-rule>
+        <from-view-id>
+            /listing.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>listing</from-outcome>
+            <to-view-id>/listing.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>  
+    
+    <navigation-rule>
+        <from-view-id>
+            /listing.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>setting</from-outcome>
+            <to-view-id>/setting.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>                                                                                                                                                     
+    
+    <!--Navigation for buying page-->
+    <navigation-rule>
+        <from-view-id>
+            /buy.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>home</from-outcome>
+            <to-view-id>/home.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule> 
+    
+    <navigation-rule>
+        <from-view-id>
+            /buy.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>buy</from-outcome>
+            <to-view-id>/buy.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule> 
+    
+    <navigation-rule>
+        <from-view-id>
+            /buy.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>sell</from-outcome>
+            <to-view-id>/sell.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule> 
+                            
+    <navigation-rule>
+        <from-view-id>
+            /buy.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>account</from-outcome>
+            <to-view-id>/createAccount.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>         
+
+    <navigation-rule>
+        <from-view-id>
+            /buy.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>listing</from-outcome>
+            <to-view-id>/listing.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>    
+
+    <navigation-rule>
+        <from-view-id>
+            /buy.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>setting</from-outcome>
+            <to-view-id>/setting.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>         
+    
+    <!--Navigation for setting page-->
+    <navigation-rule>
+        <from-view-id>
+            /setting.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>home</from-outcome>
+            <to-view-id>/home.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule> 
+    
+    <navigation-rule>
+        <from-view-id>
+            /setting.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>buy</from-outcome>
+            <to-view-id>/buy.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule> 
+    
+    <navigation-rule>
+        <from-view-id>
+            /setting.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>sell</from-outcome>
+            <to-view-id>/sell.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule> 
+                            
+    <navigation-rule>
+        <from-view-id>
+            /setting.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>account</from-outcome>
+            <to-view-id>/createAccount.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <from-view-id>
+            /setting.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>change</from-outcome>
+            <to-view-id>/createAccount.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>                       
+
+    <navigation-rule>
+        <from-view-id>
+            /setting.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>listing</from-outcome>
+            <to-view-id>/listing.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>    
+
+    <navigation-rule>
+        <from-view-id>
+            /setting.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>setting</from-outcome>
+            <to-view-id>/setting.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>      
+    
+    
+    <!--Navigation for listing page-->
+    <navigation-rule>
+        <from-view-id>
+            /listingDetail.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>home</from-outcome>
+            <to-view-id>/home.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule> 
+    
+    <navigation-rule>
+        <from-view-id>
+            /listingDetail.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>buy</from-outcome>
+            <to-view-id>/buy.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule> 
+    
+    <navigation-rule>
+        <from-view-id>
+            /listingDetail.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>sell</from-outcome>
+            <to-view-id>/sell.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule> 
+                            
+    <navigation-rule>
+        <from-view-id>
+            /listingDetail.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>account</from-outcome>
+            <to-view-id>/createAccount.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <from-view-id>
+            /listingDetail.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>change</from-outcome>
+            <to-view-id>/createAccount.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>                       
+
+    <navigation-rule>
+        <from-view-id>
+            /listingDetail.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>listing</from-outcome>
+            <to-view-id>/listing.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>    
+
+    <navigation-rule>
+        <from-view-id>
+            /listingDetail.xhtml
+        </from-view-id>
+        <navigation-case>
+            <from-outcome>setting</from-outcome>
+            <to-view-id>/setting.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>    
+        
+</faces-config>
