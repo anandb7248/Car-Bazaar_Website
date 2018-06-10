@@ -20,6 +20,7 @@ import java.util.TimeZone;
 import javax.el.ELContext;
 import javax.faces.bean.ManagedProperty;
 
+
 @Named(value = "customer")
 @SessionScoped
 @ManagedBean
