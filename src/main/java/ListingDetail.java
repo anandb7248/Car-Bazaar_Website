@@ -280,23 +280,22 @@ public class ListingDetail {
             throw new SQLException("Can't get database connection");
         }
         
-        PreparedStatement ps = con.prepareStatement("select cars.id, listing.id from cars, listing where cars.id = car_id order by car_id desc limit 1");
+        PreparedStatement ps = con.prepareStatement("select c.id as carID, l.id as listingID from cars c, listing l where c.id = car_id order by car_id desc limit 1");
         ResultSet dbListing = ps.executeQuery();
+        dbListing.next();
         
-        int carID = dbListing.getInt("car_id");
-        int listingID = dbListing.getInt("listing.id");
+        int carID = dbListing.getInt("carID");
+        int listingID = dbListing.getInt("listingID");
         
         PreparedStatement deleteFromCars = con.prepareStatement("delete from cars where id = ?");
         deleteFromCars.setInt(1, carID);
         
         PreparedStatement deleteFromListing = con.prepareStatement("delete from listing where id = ?");
-        deleteFromCars.setInt(1, listingID);
+        deleteFromListing.setInt(1, listingID);
         
         deleteFromListing.executeUpdate();
         deleteFromCars.executeUpdate();
         
         return "cancel";
     }
-    
-    
 }

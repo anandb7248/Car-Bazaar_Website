@@ -1,10 +1,14 @@
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.ManagedBean;
+import javax.faces.bean.SessionScoped;
+import javax.inject.Named;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -16,7 +20,10 @@ import java.util.List;
  *
  * @author Tim
  */
-public class Listings {
+@Named(value = "listings")
+@SessionScoped
+@ManagedBean
+public class Listings implements Serializable{
     private int id;
     private String make;
     private String model;
