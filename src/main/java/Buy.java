@@ -817,17 +817,6 @@ public class Buy implements Serializable {
             throw new SQLException("Can't get database connection");
         }
         
-        // -----
-        String zipAPI = "https://www.zipcodeapi.com/rest/dgy44GIZc4njrgFnGrGDdzWgtZb0myXWpF9VsmuCLBuWkDmJinQFY2RjRDMsZMuz/radius.json/"+ zip +"/" + chosenRadius + "/mile";
-        JSONObject json = readJsonFromUrl(zipAPI);
-        JSONArray nearbyZipJSON = json.getJSONArray("zip_codes");
-        JSONObject instance;
-        
-        for(int i = 0; i < nearbyZipJSON.length(); i++){
-            //System.out.println(nearbyZipJSON.getJSONObject(i).getString("zip_code"));
-            nearbyZipCodes.add(nearbyZipJSON.getJSONObject(i).getString("zip_code"));
-        }
-        // -----
         //setup partial query statement for conditions
         String qZip;
         String qMake;
@@ -837,6 +826,18 @@ public class Buy implements Serializable {
             qZip = "";
         else {
             //qZip = "zip = " + zip + " and ";
+                    
+            // -----
+            String zipAPI = "https://www.zipcodeapi.com/rest/dgy44GIZc4njrgFnGrGDdzWgtZb0myXWpF9VsmuCLBuWkDmJinQFY2RjRDMsZMuz/radius.json/"+ zip +"/" + chosenRadius + "/mile";
+            JSONObject json = readJsonFromUrl(zipAPI);
+            JSONArray nearbyZipJSON = json.getJSONArray("zip_codes");
+            JSONObject instance;
+
+            for(int i = 0; i < nearbyZipJSON.length(); i++){
+                //System.out.println(nearbyZipJSON.getJSONObject(i).getString("zip_code"));
+                nearbyZipCodes.add(nearbyZipJSON.getJSONObject(i).getString("zip_code"));
+            }
+            // -----
 
             qZip = "zip IN (";
             for(int i = 0; i < nearbyZipCodes.size(); i++){
