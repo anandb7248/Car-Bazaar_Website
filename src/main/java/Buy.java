@@ -188,7 +188,7 @@ public class Buy implements Serializable {
     private boolean carTypeEnabled = false;
     private boolean driveTypeEnabled = false;
     
-    public List<Listings> updateBuyPage() throws SQLException {   
+    public Buy() throws SQLException {   
         listings = new ArrayList<Listings>();
         Connection con = dbConnect.getConnection();
         int lid;
@@ -293,8 +293,6 @@ public class Buy implements Serializable {
                     lpriceStr, lcolor, lmileageStr, lcondition, ltitleStatus, 
                     lcity, lstate, lzipStr, ldescription, lurl, lphone));
         }
-        
-        return listings;
         
         
     }
@@ -767,9 +765,40 @@ public class Buy implements Serializable {
         }
     }
     
-    public String search() throws ValidatorException, SQLException, MalformedURLException, IOException, NumberFormatException{
+    public void search() throws ValidatorException, SQLException, MalformedURLException, IOException, NumberFormatException{
         // Create & test database connection
         Connection con = dbConnect.getConnection();
+        listings = new ArrayList<Listings>();
+        int lid;
+        String lmake;
+        String lmodel;
+        String ltrim;
+        int lyear;
+        String lyearStr;
+        String lcarType;
+        String ldriveType;
+        String ltransmission;
+        String lcylinders;
+        String lfuelType;
+        int lmpgCity;
+        String lmpgCityStr;
+        int lmpgHighway;
+        String lmpgHighwayStr;
+        int lprice;
+        String lpriceStr;
+        String lcolor;
+        int lmileage;
+        String lmileageStr;
+        String lcondition;
+        String ltitleStatus;
+        String lcity;
+        String lstate;
+        int lzip;
+        String lzipStr;
+        String ldescription;
+        String lurl;
+        String lphone;        
+        
         if (con == null){
             throw new SQLException("Can't get database connection");
         }
@@ -815,12 +844,12 @@ public class Buy implements Serializable {
         }
         
         String qPrice;        
-        if (minPrice.equals("") && maxPrice == null)
+        if (minPrice.equals("") && maxPrice.equals(""))
             qPrice = "";
-        else if (!minPrice.equals("") && maxPrice == null) {
+        else if (!minPrice.equals("") && maxPrice.equals("")) {
             qPrice = "(price > " + minPrice + ") and ";
         }
-        else if (minPrice.equals("") && maxPrice != null) {
+        else if (minPrice.equals("") && !maxPrice.equals("")) {
             qPrice = "(price < " + maxPrice + ") and ";
         }
         else {
@@ -909,84 +938,118 @@ public class Buy implements Serializable {
         
 
         // outer join cars and listing attributes and search
-        String searchQuery = "SELECT * FROM cars FULL OUTER JOIN listing ON cars.id = listing.car_id where "
+        String searchQuery = "SELECT * FROM listing l, cars c where c.id = l.car_id and "
                 + qZip + qMake + qModel + qTrim + qYear + qPrice + qMileage + qStyle
                 + qDriveType + qTransmission + qEngine + qFuel + qMpgCity + qMpgHwy
                 + qColor + qTitleStatus + qCity + qState + ";";
         
-        if (searchQuery.equals("SELECT * FROM cars FULL OUTER JOIN listing ON cars.id = listing.car_id where ;")) {
-            searchQuery = "SELECT * FROM cars FULL OUTER JOIN listing ON cars.id = listing.car_id";
+
+        String checkAnd = searchQuery.substring(searchQuery.length()-6, searchQuery.length());
+        System.out.println("checkAnd " + checkAnd);
+        if (checkAnd.equals(" and ;")) {
+            searchQuery = searchQuery.substring(0,searchQuery.length()-6);
+            searchQuery = searchQuery + ";";
+            System.out.println("in here " + searchQuery);
         }
-        else {
-            String checkAnd = searchQuery.substring(searchQuery.length()-6, searchQuery.length());
-            System.out.println("checkAnd " + checkAnd);
-            if (checkAnd.equals(" and ;")) {
-                searchQuery = searchQuery.substring(0,searchQuery.length()-6);
-                searchQuery = searchQuery + ";";
-                System.out.println("in here " + searchQuery);
-            }
             
-        }
         
 
         System.out.println(searchQuery);
         
         PreparedStatement ps = con.prepareStatement(searchQuery);
-        ResultSet rs = ps.executeQuery();
+        ResultSet dbListings = ps.executeQuery();
         
-        while (rs.next()) {  
-            int tCid = rs.getInt("id");
-            String tMake = rs.getString("make");
-            String tModel = rs.getString("model");
-            String tTrim = rs.getString("trim");
-            String tSize = rs.getString("size");
-            String tFuel_type = rs.getString("fuel_type");
-            int tMpg_city = rs.getInt("mpg_city");
-            int tMpg_hwy = rs.getInt("mpg_hwy");
-            String tDrive_type = rs.getString("drive_type");
-            String tEngine = rs.getString("engine");
-            int tYear = rs.getInt("year");
-            int tLid = rs.getInt("id");
-            String tDescription = rs.getString("description");
-            int tPrice = rs.getInt("price");
-            String tColor = rs.getString("color");
-            int tMileage = rs.getInt("mileage");
-            String tTransmission = rs.getString("transmission");
-            String tCondition = rs.getString("condition");
-            String tState = rs.getString("state");
-            String tCity = rs.getString("city");
-            String tTitle_status = rs.getString("title_status");
-            int tCar_id = rs.getInt("car_id");
-            int tZip = rs.getInt("zip");
-            String tUrl = rs.getString("imageurl");
+        while (dbListings.next()) {  
+            lid = dbListings.getInt(1);
+            ldescription = dbListings.getString("description");
+            lprice = dbListings.getInt("price");
+            lcolor = dbListings.getString("color");
+            lmileage = dbListings.getInt("mileage");
+            ltransmission = dbListings.getString("transmission");
+            lcondition = dbListings.getString("condition");
+            lzip = dbListings.getInt("zip");
+            lstate = dbListings.getString("state");
+            lcity = dbListings.getString("city");
+            ltitleStatus = dbListings.getString("title_status");
+            lmake = dbListings.getString("make");
+            lmodel = dbListings.getString("model");
+            ltrim = dbListings.getString("trim");
+            lcarType = dbListings.getString("size");
+            lfuelType = dbListings.getString("fuel_type");
+            lmpgCity = dbListings.getInt("mpg_city");
+            lmpgHighway = dbListings.getInt("mpg_hwy");
+            ldriveType = dbListings.getString("drive_type");
+            lcylinders = dbListings.getString("engine");
+            lyear = dbListings.getInt("year");
+            lurl = dbListings.getString("imageurl");
+            lphone = dbListings.getString("phone");
+            
+            if (lmpgCity <= 0) {
+                lmpgCityStr = "N/A";
+            }
+            else {
+                lmpgCityStr = Integer.toString(lmpgCity) + "mpg";
+            }
 
+            if (lmpgHighway <= 0) {
+                lmpgHighwayStr = "N/A";
+            }
+            else {
+                lmpgHighwayStr = Integer.toString(lmpgHighway) + "mpg";
+            }
+
+            if (lprice < 0) {
+                lpriceStr = "N/A";
+            }
+            else {
+                lpriceStr = "$" + Integer.toString(lprice);
+            }
+
+            if (lmileage < 0) {
+                lmileageStr = "N/A";
+            }
+            else {
+                lmileageStr = Integer.toString(lmileage) + " miles";
+            }
+
+            if (lzip <= 0) {
+                lzipStr = "N/A";
+            }
+            else {
+                lzipStr = Integer.toString(lzip);
+            }
+            
+            listings.add(new Listings(lid, lmake, lmodel, ltrim, Integer.toString(lyear), lcarType, ldriveType, ltransmission, 
+                    lcylinders, lfuelType, lmpgCityStr, lmpgHighwayStr, 
+                    lpriceStr, lcolor, lmileageStr, lcondition, ltitleStatus, 
+                    lcity, lstate, lzipStr, ldescription, lurl, lphone));
+            
             //show attribute values on console
-            System.out.println("Cid : " + tCid);
-            System.out.println("Make : " + tMake);
-            System.out.println("Model : " + tModel);
-            System.out.println("Trim : " + tTrim);
-            System.out.println("Size : " + tSize);
-            System.out.println("Fuel_type : " + tFuel_type);
-            System.out.println("Mpg_city : " + tMpg_city);
-            System.out.println("Mpg_hwy : " + tMpg_hwy);
-            System.out.println("Drive_type : " + tDrive_type);
-            System.out.println("Engine : " + tEngine);
-            System.out.println("Year : " + tYear);
-            System.out.println("Lid : " + tLid);
-            System.out.println("Description : " + tDescription);
-            System.out.println("Price : " + tPrice);
-            System.out.println("Color : " + tColor);
-            System.out.println("Mileage : " + tMileage);
-            System.out.println("Transmission : " + tTransmission);
-            System.out.println("Condition : " + tCondition);
-            System.out.println("State : " + tState);
-            System.out.println("City : " + tCity);
-            System.out.println("Title_status : " + tTitle_status);
-            System.out.println("Car_id : " + tCar_id);
-            System.out.println("Zip : " + tZip);
-            System.out.println("imageurl : " + tUrl);
+//            System.out.println("Cid : " + tCid);
+//            System.out.println("Make : " + tMake);
+//            System.out.println("Model : " + tModel);
+//            System.out.println("Trim : " + tTrim);
+//            System.out.println("Size : " + tSize);
+//            System.out.println("Fuel_type : " + tFuel_type);
+//            System.out.println("Mpg_city : " + tMpg_city);
+//            System.out.println("Mpg_hwy : " + tMpg_hwy);
+//            System.out.println("Drive_type : " + tDrive_type);
+//            System.out.println("Engine : " + tEngine);
+//            System.out.println("Year : " + tYear);
+//            System.out.println("Lid : " + tLid);
+//            System.out.println("Description : " + tDescription);
+//            System.out.println("Price : " + tPrice);
+//            System.out.println("Color : " + tColor);
+//            System.out.println("Mileage : " + tMileage);
+//            System.out.println("Transmission : " + tTransmission);
+//            System.out.println("Condition : " + tCondition);
+//            System.out.println("State : " + tState);
+//            System.out.println("City : " + tCity);
+//            System.out.println("Title_status : " + tTitle_status);
+//            System.out.println("Car_id : " + tCar_id);
+//            System.out.println("Zip : " + tZip);
+//            System.out.println("imageurl : " + tUrl);
         }        
-        return "search";
     }
     
 }

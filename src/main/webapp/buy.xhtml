@@ -82,8 +82,7 @@
                         </h:selectOneMenu>
                     </h:panelGroup>  
                     <h:panelGroup layout="block" id="modelBlock">
-                        Model <h:inputText value="#{buy.model}" required ="true"
-                                    requiredMessage="Your must enter a model"
+                        Model <h:inputText value="#{buy.model}"
                                     id="model" style="width: 190px"/>
                         <h:message for="model" style="color:red;margin:8px;"/>   
                     </h:panelGroup>                      
@@ -203,12 +202,12 @@
                         </h:selectOneMenu>
                     </h:panelGroup>
                     <br></br> 
-                   <h:commandButton value = "Search" action="#{buy.search}"/>
+                   <p:commandButton value = "Search" action="#{buy.search}" update=":carForm:listings"/>
                 </h:form>
             </div>
             <div style="margin-left: 300px;">
                 <h:form id="carForm">
-                    <p:dataGrid var="listing" value="#{buy.updateBuyPage()}" columns="3" rows="3" 
+                    <p:dataGrid var="listing" value="#{buy.listings}" columns="3" rows="3" 
                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" 
                                 paginator="true"
                                 id="listings"
