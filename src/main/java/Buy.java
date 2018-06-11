@@ -1,6 +1,12 @@
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.io.Serializable;
 import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.charset.Charset;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,152 +21,158 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
+import org.primefaces.json.JSONArray;
+import org.primefaces.json.JSONException;
+import org.primefaces.json.JSONObject;
 
 @Named(value = "buy")
 @ManagedBean
 @SessionScoped
 @ViewScoped
 public class Buy implements Serializable {
-    
     private List<Listings> myListings;
     private List<Listings> listings;
     private Listings selectedListing;
     
     private String[] makes = {
-"Acura",
-"Alfa Romeo",
-"AMC",
-"Aston Martin",
-"Audi",
-"Bentley",
-"BMW",
-"Bugatti",
-"Buick",
-"Cadillac",
-"Chevrolet",
-"Chrysler",
-"Daewoo",
-"Datsun",
-"DeLorean",
-"Dodge",
-"Eagle",
-"Ferrari",
-"FIAT",
-"Fisker",
-"Ford",
-"Freightliner",
-"Genesis",
-"Geo",
-"GMC",
-"Honda",
-"HUMMER",
-"Hyundai",
-"INFINITI",
-"Isuzu",
-"Jaguar",
-"Jeep",
-"Kia",
-"Lamborghini",
-"Land Rover",
-"Lexus",
-"Lincoln",
-"Lotus",
-"Maserati",
-"Maybach",
-"Mazda",
-"McLaren",
-"Mercedes-Benz",
-"Mercury",
-"MINI",
-"Mitsubishi",
-"Nissan",
-"Oldsmobile",
-"Plymouth",
-"Pontiac",
-"Porsche",
-"RAM",
-"Rolls-Royce",
-"Saab",
-"Saturn",
-"Scion",
-"smartSRT",
-"Subaru",
-"Suzuki",
-"Tesla",
-"Toyota",
-"Yugo",
-"Volkswagen",
-"Volvo"};
+        "",
+    "Acura",
+    "Alfa Romeo",
+    "AMC",
+    "Aston Martin",
+    "Audi",
+    "Bentley",
+    "BMW",
+    "Bugatti",
+    "Buick",
+    "Cadillac",
+    "Chevrolet",
+    "Chrysler",
+    "Daewoo",
+    "Datsun",
+    "DeLorean",
+    "Dodge",
+    "Eagle",
+    "Ferrari",
+    "FIAT",
+    "Fisker",
+    "Ford",
+    "Freightliner",
+    "Genesis",
+    "Geo",
+    "GMC",
+    "Honda",
+    "HUMMER",
+    "Hyundai",
+    "INFINITI",
+    "Isuzu",
+    "Jaguar",
+    "Jeep",
+    "Kia",
+    "Lamborghini",
+    "Land Rover",
+    "Lexus",
+    "Lincoln",
+    "Lotus",
+    "Maserati",
+    "Maybach",
+    "Mazda",
+    "McLaren",
+    "Mercedes-Benz",
+    "Mercury",
+    "MINI",
+    "Mitsubishi",
+    "Nissan",
+    "Oldsmobile",
+    "Plymouth",
+    "Pontiac",
+    "Porsche",
+    "RAM",
+    "Rolls-Royce",
+    "Saab",
+    "Saturn",
+    "Scion",
+    "smartSRT",
+    "Subaru",
+    "Suzuki",
+    "Tesla",
+    "Toyota",
+    "Yugo",
+    "Volkswagen",
+    "Volvo"};
     
-    private String[] states = {"AL",
-"AK",
-"AZ",
-"AR",
-"CA",
-"CO",
-"CT",
-"DE",
-"FL",
-"GA",
-"HI",
-"ID",
-"IL",
-"IN",
-"IA",
-"KS",
-"KY",
-"LA",
-"ME",
-"MD",
-"MA",
-"MI",
-"MN",
-"MS",
-"MO",
-"MT",
-"NE",
-"NV",
-"NH",
-"NJ",
-"NM",
-"NY",
-"NC",
-"ND",
-"OH",
-"OK",
-"OR",
-"PA",
-"RI",
-"SC",
-"SD",
-"TN",
-"TX",
-"UT",
-"VT",
-"VA",
-"WA",
-"WV",
-"WI",
-"WY"};
+    private String[] states = {
+        "",
+        "AL",
+    "AK",
+    "AZ",
+    "AR",
+    "CA",
+    "CO",
+    "CT",
+    "DE",
+    "FL",
+    "GA",
+    "HI",
+    "ID",
+    "IL",
+    "IN",
+    "IA",
+    "KS",
+    "KY",
+    "LA",
+    "ME",
+    "MD",
+    "MA",
+    "MI",
+    "MN",
+    "MS",
+    "MO",
+    "MT",
+    "NE",
+    "NV",
+    "NH",
+    "NJ",
+    "NM",
+    "NY",
+    "NC",
+    "ND",
+    "OH",
+    "OK",
+    "OR",
+    "PA",
+    "RI",
+    "SC",
+    "SD",
+    "TN",
+    "TX",
+    "UT",
+    "VT",
+    "VA",
+    "WA",
+    "WV",
+    "WI",
+    "WY"};
     
-    private String[] years = {"2018","2017","2016","2015","2014","2013","2012","2011",
+    private String[] years = {"","2018","2017","2016","2015","2014","2013","2012","2011",
         "2010","2009","2008","2007","2006","2005","2004","2003","2002","2001","1999"
             ,"1998","1997","1996","1995","1994","1993","1992","1991","1990"};
             
-    private String[] transmissions = {"Automatic", "Manual"};
-    private String[] fuels = {"Gasoline", "Diesel","Hybrid","Electric","Hydrogen","Alternative"};
-    private String[] styles = {"Convertible","Coupe","Sedan","Hatchback","SUV/Crossover","Truck","Van/Minivan","Wagon"};
-    private String[] driveTypes = {"AWD", "Front Wheel Drive", "Rear Wheel Drive"};
-    private String[] cylinders = {"3 Cylinder", "4 Cylinder", "5 Cylinder", "6 Cylinder","8 Cylinder","10 Cylinder", "12 Cylinder", "16 Cylinder", "Electric", "Hybrid", "Rotary Engine", "Fuel Cell"};
-    private String[] colors = {"Black", "Beige","Blue","Brown","Burgundy","Charcoal","Gold","Gray","Green",
+    private String[] transmissions = {"","Automatic", "Manual"};
+    private String[] fuels = {"","Gasoline", "Diesel","Hybrid","Electric","Hydrogen","Alternative"};
+    private String[] styles = {"","Convertible","Coupe","Sedan","Hatchback","SUV/Crossover","Truck","Van/Minivan","Wagon"};
+    private String[] driveTypes = {"","AWD", "Front Wheel Drive", "Rear Wheel Drive"};
+    private String[] cylinders = {"","3 Cylinder", "4 Cylinder", "5 Cylinder", "6 Cylinder","8 Cylinder","10 Cylinder", "12 Cylinder", "16 Cylinder", "Electric", "Hybrid", "Rotary Engine", "Fuel Cell"};
+    private String[] colors = {"","Black", "Beige","Blue","Brown","Burgundy","Charcoal","Gold","Gray","Green",
                             "Orange","Pink","Purple","Red","Silver","Tan","Turquoise","White","Yellow"};
-    private String[] conditions = {"Excellent", "Good", "Fair"};
-    private String[] titleOptions = {"Clean", "Salvage"};
-    private String[] radiusOptions = {"5","10","15","20","25","50"};
+    private String[] conditions = {"","Excellent", "Good", "Fair"};
+    private String[] titleOptions = {"","Clean", "Salvage"};
+    private String[] radiusOptions = {"","5","10","15","20","25","50"};
     private String carTypeValue;
     
     private String chosenMake;
-    private String chosenYear;
+    private String chosenMinYear;
+    private String chosenMaxYear;
     private String chosenTransmission;
     private String chosenFuel;
     private String chosenStyle;
@@ -184,8 +196,9 @@ public class Buy implements Serializable {
     private String chosenRadius;
     private boolean carTypeEnabled = false;
     private boolean driveTypeEnabled = false;
+
     
-    public List<Listings> updateBuyPage() throws SQLException {   
+    public Buy() throws SQLException {   
         listings = new ArrayList<Listings>();
         Connection con = dbConnect.getConnection();
         int lid;
@@ -217,6 +230,7 @@ public class Buy implements Serializable {
         String ldescription;
         String lurl;
         String lphone;
+        int sellerId;
         
         if (con == null) {
             throw new SQLException("Can't get database connection");
@@ -249,6 +263,7 @@ public class Buy implements Serializable {
             lyear = dbListings.getInt("year");
             lurl = dbListings.getString("imageurl");
             lphone = dbListings.getString("phone");
+            sellerId =dbListings.getInt("seller_id");
             
             if (lmpgCity <= 0) {
                 lmpgCityStr = "N/A";
@@ -288,10 +303,8 @@ public class Buy implements Serializable {
             listings.add(new Listings(lid, lmake, lmodel, ltrim, Integer.toString(lyear), lcarType, ldriveType, ltransmission, 
                     lcylinders, lfuelType, lmpgCityStr, lmpgHighwayStr, 
                     lpriceStr, lcolor, lmileageStr, lcondition, ltitleStatus, 
-                    lcity, lstate, lzipStr, ldescription, lurl, lphone));
+                    lcity, lstate, lzipStr, ldescription, lurl, lphone, sellerId));
         }
-        
-        return listings;
         
         
     }
@@ -632,13 +645,31 @@ public class Buy implements Serializable {
         this.years = years;
     }
 
-    public String getChosenYear() {
-        return chosenYear;
+    public String getChosenMinYear() {
+        return chosenMinYear;
     }
 
-    public void setChosenYear(String chosenYear) {
-        this.chosenYear = chosenYear;
+    public String getChosenMaxYear() {
+        return chosenMaxYear;
     }
+
+    public boolean isCarTypeEnabled() {
+        return carTypeEnabled;
+    }
+
+    public boolean isDriveTypeEnabled() {
+        return driveTypeEnabled;
+    }
+
+    public void setChosenMinYear(String chosenMinYear) {
+        this.chosenMinYear = chosenMinYear;
+    }
+
+    public void setChosenMaxYear(String chosenMaxYear) {
+        this.chosenMaxYear = chosenMaxYear;
+    }
+
+
     
     public String[] getMakes() {
         return makes;
@@ -746,19 +777,337 @@ public class Buy implements Serializable {
         }
     }
     
-    public String search() throws ValidatorException, SQLException, MalformedURLException, IOException{
-        // Create a database connection
+    public void search() throws ValidatorException, SQLException, MalformedURLException, IOException, NumberFormatException, JSONException{
+        // Create & test database connection
         Connection con = dbConnect.getConnection();
+        listings = new ArrayList<Listings>();
+        ArrayList<String> nearbyZipCodes = new ArrayList<String>();
+        int lid;
+        String lmake;
+        String lmodel;
+        String ltrim;
+        int lyear;
+        String lyearStr;
+        String lcarType;
+        String ldriveType;
+        String ltransmission;
+        String lcylinders;
+        String lfuelType;
+        int lmpgCity;
+        String lmpgCityStr;
+        int lmpgHighway;
+        String lmpgHighwayStr;
+        int lprice;
+        String lpriceStr;
+        String lcolor;
+        int lmileage;
+        String lmileageStr;
+        String lcondition;
+        String ltitleStatus;
+        String lcity;
+        String lstate;
+        int lzip;
+        String lzipStr;
+        String ldescription;
+        String lurl;
+        String lphone;        
+        int lsellerId;
         
         if (con == null){
             throw new SQLException("Can't get database connection");
         }
         
-        System.out.println(zip);
-        System.out.println(chosenRadius);
+        // -----
+        String zipAPI = "https://www.zipcodeapi.com/rest/dgy44GIZc4njrgFnGrGDdzWgtZb0myXWpF9VsmuCLBuWkDmJinQFY2RjRDMsZMuz/radius.json/"+ zip +"/" + chosenRadius + "/mile";
+        JSONObject json = readJsonFromUrl(zipAPI);
+        JSONArray nearbyZipJSON = json.getJSONArray("zip_codes");
+        JSONObject instance;
         
-        return "search";
+        for(int i = 0; i < nearbyZipJSON.length(); i++){
+            //System.out.println(nearbyZipJSON.getJSONObject(i).getString("zip_code"));
+            nearbyZipCodes.add(nearbyZipJSON.getJSONObject(i).getString("zip_code"));
+        }
+        // -----
+        //setup partial query statement for conditions
+        String qZip;
+        String qMake;
+        String qModel;
+        
+        if (zip.equals("")) 
+            qZip = "";
+        else {
+            //qZip = "zip = " + zip + " and ";
+
+            qZip = "zip IN (";
+            for(int i = 0; i < nearbyZipCodes.size(); i++){
+                //qZip += "zip = " + nearbyZipCodes.get(i) + " or ";
+                qZip += "'" + nearbyZipCodes.get(i) + "',";
+            }
+            
+            qZip = qZip.substring(0, qZip.length() - 1);
+            qZip += ") and ";
+        }
+        
+        if (chosenMake == null) 
+            qMake = "";
+        else 
+            qMake = "make = '" + chosenMake + "' and ";
+        
+        if (model.equals("")) 
+            qModel = "";
+        else 
+            qModel = "model = '" + model + "' and ";
+        
+        String qTrim;
+        if (trim.equals("")) {
+            qTrim = "";
+        } else {
+            qTrim = "trim = '" + trim + "' and ";
+        }
+        
+        String qYear;
+        if (chosenMinYear == null && chosenMaxYear == null)
+            qYear = "";
+        else if (chosenMinYear!= null && chosenMaxYear == null) {
+            qYear = "(year > " + chosenMinYear + ") and ";
+        }
+        else if (chosenMinYear == null && chosenMaxYear != null) {
+            qYear = "(year < " + chosenMaxYear + ") and ";
+        }
+        else {
+            qYear = "(year between " + chosenMinYear + " and " + chosenMaxYear + ") and ";       
+        }
+        
+        String qPrice;        
+        if (minPrice.equals("") && maxPrice.equals(""))
+            qPrice = "";
+        else if (!minPrice.equals("") && maxPrice.equals("")) {
+            qPrice = "(price > " + minPrice + ") and ";
+        }
+        else if (minPrice.equals("") && !maxPrice.equals("")) {
+            qPrice = "(price < " + maxPrice + ") and ";
+        }
+        else {
+            qPrice = "(price between " + minPrice + " and " + maxPrice + ") and ";       
+        }
+        
+        String qMileage;
+        if (minMileage.equals("") && maxMileage.equals(""))
+            qMileage = "";
+        else if (!minMileage.equals("") && maxMileage.equals("")) {
+            qMileage = "(mileage > " + minMileage + ") and ";
+        }
+        else if (minMileage.equals("") && !maxMileage.equals("")) {
+            qMileage = "(mileage < " + maxMileage + ") and ";
+        }
+        else {
+            qMileage = "(mileage between " + minMileage + " and " + maxMileage + ") and ";       
+        }
+            
+        String qStyle;
+        if (chosenStyle != null) {
+            qStyle = "size = '" + chosenStyle + "' and ";
+        } else {
+            qStyle = "";
+        }
+        String qDriveType;
+        if (chosenDriveType != null) {
+            qDriveType = "drive_type = '" + chosenDriveType + "' and ";
+        } else {
+            qDriveType = "";
+        }
+        String qTransmission;
+        if (chosenTransmission != null) {
+            qTransmission = "transmission = '" + chosenTransmission + "' and ";
+        } else {
+            qTransmission = "";
+        }
+        String qEngine;
+        if (chosenCylinder != null) {
+            qEngine = "engine = '" + chosenCylinder + "' and ";
+        } else {
+            qEngine = "";
+        }
+        String qFuel;
+        if (chosenFuel != null) {
+            qFuel = "fuel_type = '" + chosenFuel + "' and ";
+        } else {
+            qFuel = "";
+        }
+        String qMpgCity;
+        if (!mpgcity.equals("")) {
+            qMpgCity = "mpg_city <= '" + mpgcity + "' and ";
+        } else {
+            qMpgCity = "";
+        }
+        String qMpgHwy;
+        if (!mpghway.equals("")) {
+            qMpgHwy = "mpg_hwy <= '" + mpghway + "' and ";
+        } else {
+            qMpgHwy = "";
+        }
+        String qColor;
+        if (chosenColor != null) {
+            qColor = "color = '" + chosenColor + "' and ";
+        } else {
+            qColor = "";
+        }
+        String qTitleStatus;
+        if (chosenTitleStatus != null) {
+            qTitleStatus = "title_status = '" + chosenTitleStatus + "' and ";
+        } else {
+            qTitleStatus = "";
+        }
+        String qCity;
+        if (!city.equals("")) {
+            qCity = "city = '" + city + "' and ";
+        } else {
+            qCity = "";
+        }
+        String qState;
+        if (chosenState != null) {
+            qState = "state = '" + chosenState + "'";
+        } else {
+            qState = "";
+        }
+        
+        // outer join cars and listing attributes and search
+        String searchQuery = "SELECT * FROM listing l, cars c where c.id = l.car_id and "
+                + qZip + qMake + qModel + qTrim + qYear + qPrice + qMileage + qStyle
+                + qDriveType + qTransmission + qEngine + qFuel + qMpgCity + qMpgHwy
+                + qColor + qTitleStatus + qCity + qState + ";";
+        
+
+        String checkAnd = searchQuery.substring(searchQuery.length()-6, searchQuery.length());
+        System.out.println("checkAnd " + checkAnd);
+        if (checkAnd.equals(" and ;")) {
+            searchQuery = searchQuery.substring(0,searchQuery.length()-6);
+            searchQuery = searchQuery + ";";
+            System.out.println("in here " + searchQuery);
+        }
+            
+        System.out.println(searchQuery);
+        
+        PreparedStatement ps = con.prepareStatement(searchQuery);
+        ResultSet dbListings = ps.executeQuery();
+        
+        while (dbListings.next()) {  
+            lid = dbListings.getInt(1);
+            ldescription = dbListings.getString("description");
+            lprice = dbListings.getInt("price");
+            lcolor = dbListings.getString("color");
+            lmileage = dbListings.getInt("mileage");
+            ltransmission = dbListings.getString("transmission");
+            lcondition = dbListings.getString("condition");
+            lzip = dbListings.getInt("zip");
+            lstate = dbListings.getString("state");
+            lcity = dbListings.getString("city");
+            ltitleStatus = dbListings.getString("title_status");
+            lmake = dbListings.getString("make");
+            lmodel = dbListings.getString("model");
+            ltrim = dbListings.getString("trim");
+            lcarType = dbListings.getString("size");
+            lfuelType = dbListings.getString("fuel_type");
+            lmpgCity = dbListings.getInt("mpg_city");
+            lmpgHighway = dbListings.getInt("mpg_hwy");
+            ldriveType = dbListings.getString("drive_type");
+            lcylinders = dbListings.getString("engine");
+            lyear = dbListings.getInt("year");
+            lurl = dbListings.getString("imageurl");
+            lphone = dbListings.getString("phone");
+            lsellerId = dbListings.getInt("seller_id");
+            
+            if (lmpgCity <= 0) {
+                lmpgCityStr = "N/A";
+            }
+            else {
+                lmpgCityStr = Integer.toString(lmpgCity) + "mpg";
+            }
+
+            if (lmpgHighway <= 0) {
+                lmpgHighwayStr = "N/A";
+            }
+            else {
+                lmpgHighwayStr = Integer.toString(lmpgHighway) + "mpg";
+            }
+
+            if (lprice < 0) {
+                lpriceStr = "N/A";
+            }
+            else {
+                lpriceStr = "$" + Integer.toString(lprice);
+            }
+
+            if (lmileage < 0) {
+                lmileageStr = "N/A";
+            }
+            else {
+                lmileageStr = Integer.toString(lmileage) + " miles";
+            }
+
+            if (lzip <= 0) {
+                lzipStr = "N/A";
+            }
+            else {
+                lzipStr = Integer.toString(lzip);
+            }
+            
+            listings.add(new Listings(lid, lmake, lmodel, ltrim, Integer.toString(lyear), lcarType, ldriveType, ltransmission, 
+                    lcylinders, lfuelType, lmpgCityStr, lmpgHighwayStr, 
+                    lpriceStr, lcolor, lmileageStr, lcondition, ltitleStatus, 
+                    lcity, lstate, lzipStr, ldescription, lurl, lphone, lsellerId));
+            
+            //show attribute values on console
+//            System.out.println("Cid : " + tCid);
+//            System.out.println("Make : " + tMake);
+//            System.out.println("Model : " + tModel);
+//            System.out.println("Trim : " + tTrim);
+//            System.out.println("Size : " + tSize);
+//            System.out.println("Fuel_type : " + tFuel_type);
+//            System.out.println("Mpg_city : " + tMpg_city);
+//            System.out.println("Mpg_hwy : " + tMpg_hwy);
+//            System.out.println("Drive_type : " + tDrive_type);
+//            System.out.println("Engine : " + tEngine);
+//            System.out.println("Year : " + tYear);
+//            System.out.println("Lid : " + tLid);
+//            System.out.println("Description : " + tDescription);
+//            System.out.println("Price : " + tPrice);
+//            System.out.println("Color : " + tColor);
+//            System.out.println("Mileage : " + tMileage);
+//            System.out.println("Transmission : " + tTransmission);
+//            System.out.println("Condition : " + tCondition);
+//            System.out.println("State : " + tState);
+//            System.out.println("City : " + tCity);
+//            System.out.println("Title_status : " + tTitle_status);
+//            System.out.println("Car_id : " + tCar_id);
+//            System.out.println("Zip : " + tZip);
+//            System.out.println("imageurl : " + tUrl);
+        }        
     }
+    
+    public static JSONObject readJsonFromUrl(String url) throws IOException, JSONException {
+    InputStream is = new URL(url).openStream();
+        try {
+            BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
+            String jsonText = readAll(rd);
+            JSONObject json = new JSONObject(jsonText);
+            
+            return json;
+        } finally {
+            is.close();
+        }
+    }
+    
+    private static String readAll(Reader rd) throws IOException {
+        StringBuilder sb = new StringBuilder();
+        int cp;
+        while ((cp = rd.read()) != -1) {
+            sb.append((char) cp);
+        }
+        
+        return sb.toString();
+    }
+    
     
     public List<Listings> updateMyListingsPage() throws SQLException {   
         myListings = new ArrayList<Listings>();
@@ -792,13 +1141,13 @@ public class Buy implements Serializable {
         String ldescription;
         String lurl;
         String lphone;
+        int lsellerId;
         
         if (con == null) {
             throw new SQLException("Can't get database connection");
         }
         
         PreparedStatement queryListings = con.prepareStatement("select * from listing l, cars c where l.car_id = c.id and seller_id = ?");
-        System.out.println(Login.userId);
         queryListings.setInt(1, Login.userId);
         ResultSet dbListings = queryListings.executeQuery();
         
@@ -826,6 +1175,7 @@ public class Buy implements Serializable {
             lyear = dbListings.getInt("year");
             lurl = dbListings.getString("imageurl");
             lphone = dbListings.getString("phone");
+            lsellerId = dbListings.getInt("seller_id");
             
             if (lmpgCity <= 0) {
                 lmpgCityStr = "N/A";
@@ -865,12 +1215,36 @@ public class Buy implements Serializable {
             myListings.add(new Listings(lid, lmake, lmodel, ltrim, Integer.toString(lyear), lcarType, ldriveType, ltransmission, 
                     lcylinders, lfuelType, lmpgCityStr, lmpgHighwayStr, 
                     lpriceStr, lcolor, lmileageStr, lcondition, ltitleStatus, 
-                    lcity, lstate, lzipStr, ldescription, lurl, lphone));
+                    lcity, lstate, lzipStr, ldescription, lurl, lphone, lsellerId));
         }
         
         return myListings;
         
         
     }    
+ 
+    public void deleteFromMyListings(int listingId) throws SQLException {
+        // Create a database connection
+        Connection con = dbConnect.getConnection();
+        
+        if (con == null){
+            throw new SQLException("Can't get database connection");
+        }
+
+        PreparedStatement deleteListing = con.prepareStatement("delete from listing where id = ?");
+        deleteListing.setInt(1, listingId);
+        deleteListing.executeUpdate();     
+        
+        PreparedStatement ps = con.prepareStatement("select car_id from listing where id = ?");
+        ps.setInt(1, listingId);
+        ResultSet rs = ps.executeQuery();  
+        
+        rs.next();
+        int carId = rs.getInt("car_id");
+        PreparedStatement deleteFromCars = con.prepareStatement("delete from cars where id = ?");
+        deleteFromCars.setInt(1, carId);
+        deleteFromCars.executeUpdate();     
+    }
+
     
 }

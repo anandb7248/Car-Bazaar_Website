@@ -47,6 +47,7 @@ public class Listings implements Serializable{
     private String description;
     private String url;
     private String phone;
+    private int sellerId;
     
     private DBConnect dbConnect = new DBConnect();
     private List<Listings> myListings;    
@@ -54,7 +55,7 @@ public class Listings implements Serializable{
     public Listings(int id, String make, String model, String trim, String year, String carType, String driveType,
             String transmission, String cylinders, String fuelType, String mpgCity, String mpgHighway,
             String price, String color, String mileage, String condition, String titleStatus, String city,
-            String state, String zip, String description, String url, String phone) {
+            String state, String zip, String description, String url, String phone, int sellerId) {
         this.id = id;
         this.make = make;
         this.model = model;
@@ -78,7 +79,18 @@ public class Listings implements Serializable{
         this.description = description;
         this.url = url;
         this.phone = phone;
+        this.sellerId = sellerId;
     }
+
+    public int getSellerId() {
+        return sellerId;
+    }
+
+    public void setSellerId(int sellerId) {
+        this.sellerId = sellerId;
+    }
+    
+    
    
     public int getId() {
         return id;

@@ -59,6 +59,7 @@ public class ListingDetail {
         String description;
         String url;
         String phone;
+        int sellerId;
         Connection con = dbConnect.getConnection();
         
         if (con == null) {
@@ -94,6 +95,7 @@ public class ListingDetail {
         year = dbListing.getInt("year");
         url = dbListing.getString("imageurl");
         phone = dbListing.getString("phone");
+        sellerId = dbListing.getInt("seller_id");
         
         if (mpgCity <= 0) {
             mpgCityStr = "N/A";
@@ -134,7 +136,7 @@ public class ListingDetail {
         listing = new Listings(id, make, model, trim, Integer.toString(year), carType, driveType, transmission, 
                     cylinders, fuelType, mpgCityStr, mpgHighwayStr, 
                     priceStr, color, mileageStr, condition, titleStatus, 
-                    city, state, zipStr, description, url, phone);
+                    city, state, zipStr, description, url, phone, sellerId);
     }
     
     public void initConfirm() throws SQLException {
@@ -166,6 +168,7 @@ public class ListingDetail {
         String description;
         String url;
         String phone;
+        int sellerId;
         Connection con = dbConnect.getConnection();
         
         if (con == null) {
@@ -201,6 +204,7 @@ public class ListingDetail {
         year = dbListing.getInt("year");
         url = dbListing.getString("imageurl");
         phone = dbListing.getString("phone");
+        sellerId = dbListing.getInt("seller_id");
         
         if (mpgCity <= 0) {
             mpgCityStr = "N/A";
@@ -241,7 +245,7 @@ public class ListingDetail {
         listing = new Listings(id, make, model, trim, Integer.toString(year), carType, driveType, transmission, 
                     cylinders, fuelType, mpgCityStr, mpgHighwayStr, 
                     priceStr, color, mileageStr, condition, titleStatus, 
-                    city, state, zipStr, description, url, phone);
+                    city, state, zipStr, description, url, phone, sellerId);
     }
 
     public int getId() {
